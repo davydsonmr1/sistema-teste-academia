@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gerenciamento de Academia</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Sistema de Gerenciamento de Academia</h1>
+        <nav>
+            <button id="btn-cadastro">Cadastro de Aluno</button>
+            <button id="btn-treino">Plano de Treino</button>
+            <button id="btn-alunos">Dados dos Alunos</button>
+        </nav>
+    </header>
+    
+    <main id="main-content">
+        <div id="mensagem-feedback" class="mensagem"></div>
+
+        <section id="cadastro-aluno" class="tela">
+            <div id="form-cadastro">
+                <h2>Cadastro de Aluno</h2>
+                <form id="form-cadastrar-aluno">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" required>
+                    <label for="telefone">Telefone:</label>
+                    <input type="tel" id="telefone" required>
+                    <label for="data-vencimento">Data de Vencimento:</label>
+                    <input type="date" id="data-vencimento" required>
+                    <label for="altura">Altura (cm):</label>
+                    <input type="number" id="altura" required>
+                    <label for="peso">Peso (kg):</label>
+                    <input type="number" id="peso" required>
+                    <label for="idade">Idade:</label>
+                    <input type="number" id="idade" required>
+                    <label for="foto">Foto:</label>
+                    <input type="file" id="foto">
+                    
+                    <!-- Novo campo de entrada de texto dinâmico -->
+                    <div id="div-novo-campo">
+                        <label>Adicione Perguntas:</label>
+                        <input type="text" id="novo-campo-input">
+                        <button id="btn-adicionar-campo">Adicionar</button>
+                    </div>
+                    
+                    <button type="submit">Cadastrar Aluno</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="plano-treino" class="tela">
+            <h2>Plano de Treino</h2>
+            <div id="form-plano-treino">
+                <label for="select-aluno">Selecionar Aluno:</label>
+                <select id="select-aluno"></select>
+                <label for="input-exercicio">Exercício:</label>
+                <input type="text" id="input-exercicio">
+                    
+                </select>
+                <label for="select-dia-semana">Dia da Semana:</label>
+                <select id="select-dia-semana">
+                    <option value="1">Segunda-feira</option>
+                    <option value="2">Terça-feira</option>
+                    <option value="3">Quarta-feira</option>
+                    <option value="4">Quinta-feira</option>
+                    <option value="5">Sexta-feira</option>
+                    <option value="6">Sábado</option>
+                    <option value="7">Domingo</option>
+                </select>
+                <label for="series">Séries:</label>
+                <input type="number" id="series">
+                <label for="repeticoes">Repetições:</label>
+                <input type="number" id="repeticoes">
+                <button type="submit" id="btn-adicionar-treino">Adicionar Treino</button>
+            </div>
+        </section>
+
+        <section id="dados-alunos" class="tela">
+            <h2>Dados dos Alunos</h2>
+            <input type="text" id="pesquisar-nome" placeholder="Pesquisar por nome">
+            <button id="btn-pesquisar">Pesquisar Alunos</button>
+            <div id="lista-alunos"></div>
+        </section>
+
+        <div id="modal-plano-treino" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="modal-titulo"></h2>
+                <div id="detalhes-plano-treino" class="plano-treino-container"></div>
+            </div>
+        </div>
+        <div id="detalhes-aluno" class="modal">
+            <div class="detalhes-content">
+                <span class="close">&times;</span>
+                <h2 id="modal-titulo">Detalhes do Aluno</h2>
+                <div id="detalhes-aluno-content">
+                    <!-- Conteúdo dos detalhes do aluno será inserido dinamicamente -->
+                </div>
+            </div>
+        </div>
+        
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
