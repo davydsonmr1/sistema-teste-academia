@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const inputSeries = document.getElementById('series');
     const inputRepeticoes = document.getElementById('repeticoes');
     const btnAdicionarTreino = document.getElementById('btn-adicionar-treino');
-    const selectExercicio = document.getElementById('select-exercicio');
+    const inputExercicio = document.getElementById('input-exercicio'); // corrigido para funcionar com o id certo 
     const selectDiaSemana = document.getElementById('select-dia-semana');
 
     const btnCadastro = document.getElementById('btn-cadastro');
@@ -75,20 +75,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     btnAdicionarTreino.addEventListener('click', function(event) {
         event.preventDefault();
-
+    
         const index = selectAluno.selectedIndex;
         const alunoSelecionado = alunos[index];
-        const exercicio = selectExercicio.value;
+        const exercicio = inputExercicio.value; // Corrigido para ler o valor do campo input-exercicio
         const diaSemana = selectDiaSemana.value;
         const series = inputSeries.value;
         const repeticoes = inputRepeticoes.value;
-
+    
         const treino = {
             exercicio,
             series,
             repeticoes
         };
-
+    
         if (!alunoSelecionado.treinos[diaSemana]) {
             alunoSelecionado.treinos[diaSemana] = [];
         }
@@ -98,6 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
         inputSeries.value = '';
         inputRepeticoes.value = '';
     });
+    
 
     btnPesquisar.addEventListener('click', function() {
         const nomePesquisa = inputPesquisarNome.value.toLowerCase();
