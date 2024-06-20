@@ -288,39 +288,19 @@ main {
 }
 
 /* Estilos para o novo campo dinâmico */
-#div-novo-campo {
-    display: flex;
-    align-items: flex-start; /* Alinha os itens ao topo */
-    margin-top: 10px;
+.novo-campo-container {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
 }
 
-#div-novo-campo label {
-    flex: 1; /* Ocupa todo o espaço disponível */
-    margin-right: 10px;
+.novo-campo-label {
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
-#div-novo-campo input[type="text"] {
-    flex: 2; /* Ocupa o dobro do espaço do label */
-    padding: 8px;
-    margin-top: 5px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-#div-novo-campo button {
-    flex: 0; /* O botão não expande */
-    padding: 8px 15px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    border-radius: 4px;
-}
-
-#div-novo-campo button:hover {
-    background-color: #555;
+.novo-campo-value {
+    margin-bottom: 10px;
 }
 
 .icon-excluir-campo {

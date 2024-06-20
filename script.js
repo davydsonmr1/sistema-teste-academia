@@ -28,6 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const detalhesAlunoContent = document.getElementById('detalhes-aluno-content');
     const spanCloseDetalhes = detalhesAlunoModal.querySelector('.close');
 
+    const divNovoCampo = document.getElementById('div-novo-campo'); // Adicionado para capturar div-novo-campo
+
     function mostrarTela(tela) {
         telaCadastro.style.display = 'none';
         telaTreino.style.display = 'none';
@@ -55,6 +57,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const idade = document.getElementById('idade').value;
         const foto = document.getElementById('foto').files[0];
 
+        // Captura dos novos campos dinâmicos
+        const novosCampos = [];
+        const camposDinamicos = divNovoCampo.querySelectorAll('.form-group');
+        camposDinamicos.forEach(campo => {
+            const label = campo.querySelector('label').textContent;
+            const valor = campo.querySelector('input').value;
+            novosCampos.push({ label, valor });
+        });
+
         const aluno = {
             nome,
             telefone,
@@ -63,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
             peso,
             idade,
             foto: foto ? URL.createObjectURL(foto) : null,
+            perguntas: novosCampos,  // Adiciona os novos campos dinâmicos ao objeto aluno
             treinos: {}
         };
 
@@ -71,24 +83,25 @@ document.addEventListener('DOMContentLoaded', function() {
         exibirAlunos();
         atualizarSelectAluno();
         formCadastrarAluno.reset();
+        divNovoCampo.innerHTML = ''; // Limpa os novos campos dinâmicos após o cadastro
     });
 
     btnAdicionarTreino.addEventListener('click', function(event) {
         event.preventDefault();
-    
+
         const index = selectAluno.selectedIndex;
         const alunoSelecionado = alunos[index];
-        const exercicio = inputExercicio.value; // Corrigido para ler o valor do campo input-exercicio
+        const exercicio = inputExercicio.value;
         const diaSemana = selectDiaSemana.value;
         const series = inputSeries.value;
         const repeticoes = inputRepeticoes.value;
-    
+
         const treino = {
             exercicio,
             series,
             repeticoes
         };
-    
+
         if (!alunoSelecionado.treinos[diaSemana]) {
             alunoSelecionado.treinos[diaSemana] = [];
         }
@@ -99,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function() {
         inputRepeticoes.value = '';
         inputExercicio.value = '';
     });
-    
 
     btnPesquisar.addEventListener('click', function() {
         const nomePesquisa = inputPesquisarNome.value.toLowerCase();
@@ -205,7 +217,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     // Ícone para excluir exercício
                     const iconExcluirTreino = document.createElement('span');
-                    iconExcluirTreino.innerHTML = '&times;';
                     iconExcluirTreino.classList.add('icon-excluir-treino');
                     iconExcluirTreino.addEventListener('click', () => excluirTreino(index, dia, treinoIdx));
 
@@ -268,11 +279,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function exibirDetalhesAluno(index) {
         const alunoSelecionado = alunos[index];
         detalhesAlunoContent.innerHTML = '';
+    
+        // Cria título com o nome do aluno
         const tituloDetalhes = document.createElement('h2');
-        tituloDetalhes.textContent = `Detalhes do Aluno: ${alunoSelecionado.nome}`;
+        tituloDetalhes.textContent = alunoSelecionado.nome;
         detalhesAlunoContent.appendChild(tituloDetalhes);
-
+    
+        // Lista para exibir detalhes
         const listaDetalhes = document.createElement('ul');
+    
+        // Adiciona detalhes fixos do aluno na lista
         const itensDetalhes = [
             `Nome: ${alunoSelecionado.nome}`,
             `Telefone: ${alunoSelecionado.telefone}`,
@@ -280,17 +296,43 @@ document.addEventListener('DOMContentLoaded', function() {
             `Altura: ${alunoSelecionado.altura} cm`,
             `Peso: ${alunoSelecionado.peso} kg`,
             `Idade: ${alunoSelecionado.idade} anos`
+            
         ];
-
+    
+        // Adiciona perguntas dinâmicas, se existirem
+        if (alunoSelecionado.perguntas && alunoSelecionado.perguntas.length > 0) {
+            alunoSelecionado.perguntas.forEach(pergunta => {
+                const novoCampoContainer = document.createElement('div');
+                novoCampoContainer.classList.add('novo-campo-container');
+    
+                const labelPergunta = document.createElement('div');
+                labelPergunta.classList.add('novo-campo-label');
+                labelPergunta.textContent = `${pergunta.label}:`;
+                novoCampoContainer.appendChild(labelPergunta);
+    
+                const valorPergunta = document.createElement('div');
+                valorPergunta.classList.add('novo-campo-value');
+                valorPergunta.textContent = pergunta.valor;
+                novoCampoContainer.appendChild(valorPergunta);
+    
+                listaDetalhes.appendChild(novoCampoContainer);
+            });
+        }
+    
         itensDetalhes.forEach(item => {
             const li = document.createElement('li');
             li.textContent = item;
             listaDetalhes.appendChild(li);
         });
-
+    
         detalhesAlunoContent.appendChild(listaDetalhes);
         detalhesAlunoModal.style.display = 'block';
     }
+    
+    
+    
+
+
 
     spanCloseDetalhes.onclick = function() {
         detalhesAlunoModal.style.display = 'none';
@@ -308,12 +350,13 @@ document.addEventListener('DOMContentLoaded', function() {
     btnAdicionarCampo.addEventListener('click', function(event) {
         event.preventDefault();
 
-        const tituloCampo = document.getElementById('titulo-campo').value;
-        const novoCampo = document.createElement('div');
-        novoCampo.classList.add('form-group');
+        const novoCampoInput = document.getElementById('novo-campo-input').value;
+
+        const novoCampoDiv = document.createElement('div');
+        novoCampoDiv.classList.add('form-group');
 
         const label = document.createElement('label');
-        label.textContent = tituloCampo;
+        label.textContent = novoCampoInput;
 
         const input = document.createElement('input');
         input.type = 'text';
@@ -323,14 +366,17 @@ document.addEventListener('DOMContentLoaded', function() {
         btnRemover.textContent = 'X';
         btnRemover.classList.add('btn-remover-campo');
         btnRemover.addEventListener('click', function() {
-            novoCampo.remove();
+            novoCampoDiv.remove();
         });
 
-        novoCampo.appendChild(label);
-        novoCampo.appendChild(input);
-        novoCampo.appendChild(btnRemover);
+        novoCampoDiv.appendChild(label);
+        novoCampoDiv.appendChild(input);
+        novoCampoDiv.appendChild(btnRemover);
 
-        formCadastroAluno.appendChild(novoCampo);
+        formCadastroAluno.insertBefore(novoCampoDiv, divNovoCampo);
+
+        // Limpa o campo de entrada após adicionar
+        document.getElementById('novo-campo-input').value = '';
     });
 
 });
