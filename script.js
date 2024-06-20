@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
         exibirAlunos();
         inputSeries.value = '';
         inputRepeticoes.value = '';
+        inputExercicio.value = '';
     });
     
 
